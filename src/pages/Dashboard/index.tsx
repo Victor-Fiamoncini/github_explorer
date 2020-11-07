@@ -1,34 +1,52 @@
-import React from 'react';
+import React, { FormEvent, useCallback, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 
 import githubExplorerLogo from '../../assets/images/github-explorer-logo.svg';
+import { useRepository } from '../../context/RepositoryContext';
 
 import { Title, Form, Repositories } from './styles';
 
 const Dashboard: React.FC = () => {
+	const [newRepository, setNewRepository] = useState('');
+
+	const { repositories, getRepositories } = useRepository();
+
+	const handleNewRepositorySubmit = useCallback(
+		async (event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault();
+
+			await getRepositories(newRepository);
+		},
+		[getRepositories, newRepository]
+	);
+
 	return (
 		<>
 			<img src={githubExplorerLogo} alt="Github Explorer" />
 			<Title>Explore repositórios no Github.</Title>
-			<Form>
-				<input type="text" placeholder="Digite o nome do repositório" />
+			<Form onSubmit={handleNewRepositorySubmit}>
+				<input
+					type="text"
+					placeholder="Digite o nome do repositório"
+					value={newRepository}
+					onChange={event => setNewRepository(event.target.value)}
+				/>
 				<button type="submit">Pesquisar</button>
 			</Form>
 			<Repositories>
-				<a href="">
-					<img
-						src="https://avatars0.githubusercontent.com/u/43005250?s=460&u=b36b009d58ba109e2348e60ef83771dd34e91ba2&v=4"
-						alt="Avatar"
-					/>
-					<div>
-						<strong>Meu repooooooo</strong>
-						<p>
-							qqoenfief wieofnmwiefmwef wefmweifmweof w wefmwiefmwef wefwef
-							eimfwef
-						</p>
-					</div>
-					<FiChevronRight size={20} />
-				</a>
+				{repositories.map(repository => (
+					<a key={repository.full_name} href="">
+						<img
+							src={repository.owner.avatar_url}
+							alt={repository.owner.login}
+						/>
+						<div>
+							<strong>{repository.full_name}</strong>
+							<p>{repository.description}</p>
+						</div>
+						<FiChevronRight size={20} />
+					</a>
+				))}
 			</Repositories>
 		</>
 	);

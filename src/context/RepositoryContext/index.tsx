@@ -10,14 +10,26 @@ const RepositoryContext = createContext<RepositoryContextData>(
 export const RepositoryProvider: React.FC = ({ children }) => {
 	const [data, setData] = useState<RespositoryState>({ repositories: [] });
 
-	const getRepositories = useCallback(async () => {
-		// const repositories = await githubClient.;
+	const getRepositories = useCallback(
+		async (repositoryName: string) => {
+			try {
+				const repositories = await githubClient.get(`repos/${repositoryName}`);
 
-		return [{ name: '' }];
-	}, []);
+				setData({
+					...data,
+					repositories: [...data.repositories, repositories.data],
+				});
+			} catch {
+				console.log('Error to fetch repositories');
+			}
+		},
+		[data]
+	);
 
 	return (
-		<RepositoryContext.Provider value={{ getRepositories }}>
+		<RepositoryContext.Provider
+			value={{ repositories: data.repositories, getRepositories }}
+		>
 			{children}
 		</RepositoryContext.Provider>
 	);

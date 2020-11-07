@@ -62,7 +62,8 @@ export const Repositories = styled.div`
 			border-radius: 50%;
 		}
 		div {
-			margin-left: 16px;
+			flex: 1;
+			margin: 0 16px;
 			strong {
 				font-size: ${rem(20)};
 				color: ${props => props.theme.colors.quinary};
