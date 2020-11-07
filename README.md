@@ -1,4 +1,4 @@
-# Github Finder
+# Github Explorer
 
 Github API client, built with React.
 
