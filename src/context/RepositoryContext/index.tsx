@@ -17,6 +17,8 @@ export const RepositoryProvider: React.FC = ({ children }) => {
 	const [data, setData] = useState<RespositoryState>(() => {
 		const initialState: RespositoryState = {
 			repositories: [],
+			currentRepository: undefined,
+			currentRepositoryIssues: [],
 		};
 
 		const storagedRepositories = localStorage.getItem(
@@ -29,17 +31,35 @@ export const RepositoryProvider: React.FC = ({ children }) => {
 
 		return initialState;
 	});
-	const { repositories } = data;
+
+	const { repositories, currentRepository, currentRepositoryIssues } = data;
 
 	const getRepositories = useCallback(
-		async (repositoryName: string) => {
-			const response = await githubClient.get(`repos/${repositoryName}`);
+		async (repositoryAuthorName: string) => {
+			const response = await githubClient.get(`repos/${repositoryAuthorName}`);
 
 			setData({
+				...data,
 				repositories: [...repositories, response.data],
 			});
 		},
-		[repositories]
+		[data, repositories]
+	);
+
+	const getRepository = useCallback(
+		async (repositoryName: string) => {
+			const [repositoryResponse, issuesResponse] = await Promise.all([
+				githubClient.get(`repos/${repositoryName}`),
+				githubClient.get(`repos/${repositoryName}/issues`),
+			]);
+
+			setData({
+				...data,
+				currentRepository: repositoryResponse.data,
+				currentRepositoryIssues: issuesResponse.data,
+			});
+		},
+		[data]
 	);
 
 	useEffect(() => {
@@ -50,7 +70,15 @@ export const RepositoryProvider: React.FC = ({ children }) => {
 	}, [repositories]);
 
 	return (
-		<RepositoryContext.Provider value={{ repositories, getRepositories }}>
+		<RepositoryContext.Provider
+			value={{
+				repositories,
+				currentRepository,
+				currentRepositoryIssues,
+				getRepositories,
+				getRepository,
+			}}
+		>
 			{children}
 		</RepositoryContext.Provider>
 	);
