@@ -9,6 +9,8 @@ declare module 'styled-components' {
 			tertiary: string;
 			quartenary: string;
 			quinary: string;
+			senary: string;
+			septenary: string;
 			black: string;
 			white: string;
 			messages: {

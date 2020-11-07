@@ -1,4 +1,5 @@
 import React from 'react';
+import { FiChevronRight } from 'react-icons/fi';
 
 import githubExplorerLogo from '../../assets/images/github-explorer-logo.svg';
 
@@ -26,6 +27,7 @@ const Dashboard: React.FC = () => {
 							eimfwef
 						</p>
 					</div>
+					<FiChevronRight size={20} />
 				</a>
 			</Repositories>
 		</>

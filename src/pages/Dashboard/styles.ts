@@ -39,4 +39,43 @@ export const Form = styled.form`
 	}
 `;
 
-export const Repositories = styled.div``;
+export const Repositories = styled.div`
+	margin-top: 80px;
+	max-width: 700px;
+	a {
+		background: ${props => props.theme.colors.white};
+		border-radius: 5px;
+		width: 100%;
+		padding: 24px;
+		display: flex;
+		align-items: center;
+		& + a {
+			margin-top: 16px;
+		}
+		&:hover {
+			transform: translateX(10px);
+			transition: transform 0.2s;
+		}
+		img {
+			height: 64px;
+			width: 64px;
+			border-radius: 50%;
+		}
+		div {
+			margin-left: 16px;
+			strong {
+				font-size: ${rem(20)};
+				color: ${props => props.theme.colors.quinary};
+			}
+			p {
+				font-size: ${rem(18)};
+				color: ${props => props.theme.colors.quartenary};
+				margin-top: 4px;
+			}
+		}
+		svg {
+			margin-left: auto;
+			color: ${props => props.theme.colors.senary};
+		}
+	}
+`;
