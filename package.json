@@ -1,13 +1,13 @@
 {
-	"name": "github_finder",
-	"author": {
-		"name": "Victor B. Fiamoncini",
-		"email": "victor.fiamoncini@gmail.com"
-	},
+  "name": "github_finder",
+  "author": {
+    "name": "Victor B. Fiamoncini",
+    "email": "victor.fiamoncini@gmail.com"
+  },
   "version": "0.1.0",
-	"private": true,
-	"license": "MIT",
-	"scripts": {
+  "private": true,
+  "license": "MIT",
+  "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -21,24 +21,34 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "polished": "^4.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "react-switch": "^5.0.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.1",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
-
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "@types/react-redux": "^7.1.11",
+    "@types/react-router-dom": "^5.1.6",
+    "@types/styled-components": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "eslint": "^7.12.1",
     "eslint-plugin-react": "^7.21.5",
     "husky": "^4.3.0",
-    "prettier": "^2.1.2"
-	},
-	"eslintConfig": {
+    "prettier": "^2.1.2",
+    "redux-devtools-extension": "^2.13.8"
+  },
+  "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
