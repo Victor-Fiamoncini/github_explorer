@@ -7,7 +7,7 @@ export default {
 		quartenary: '#a8a8b3',
 		quinary: '#3d3d4d',
 		senary: '#cdcdd6',
-		septenary: '',
+		septenary: '#666',
 		black: '#000',
 		white: '#fff',
 		messages: {
