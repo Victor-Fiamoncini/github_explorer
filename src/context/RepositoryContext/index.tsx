@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useState, createContext } from 'react';
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+	createContext,
+} from 'react';
 import { githubClient } from '../../services/apiClients';
 
 import { RepositoryContextData, RespositoryState } from './types';
@@ -8,24 +14,43 @@ const RepositoryContext = createContext<RepositoryContextData>(
 );
 
 export const RepositoryProvider: React.FC = ({ children }) => {
-	const [data, setData] = useState<RespositoryState>({ repositories: [] });
+	const [data, setData] = useState<RespositoryState>(() => {
+		const initialState: RespositoryState = {
+			repositories: [],
+		};
+
+		const storagedRepositories = localStorage.getItem(
+			'@GithubExplorer:repositories'
+		);
+
+		if (storagedRepositories) {
+			initialState.repositories = JSON.parse(storagedRepositories);
+		}
+
+		return initialState;
+	});
+	const { repositories } = data;
 
 	const getRepositories = useCallback(
 		async (repositoryName: string) => {
-			const repositories = await githubClient.get(`repos/${repositoryName}`);
+			const response = await githubClient.get(`repos/${repositoryName}`);
 
 			setData({
-				...data,
-				repositories: [...data.repositories, repositories.data],
+				repositories: [...repositories, response.data],
 			});
 		},
-		[data]
+		[repositories]
 	);
 
+	useEffect(() => {
+		localStorage.setItem(
+			'@GithubExplorer:repositories',
+			JSON.stringify(repositories)
+		);
+	}, [repositories]);
+
 	return (
-		<RepositoryContext.Provider
-			value={{ repositories: data.repositories, getRepositories }}
-		>
+		<RepositoryContext.Provider value={{ repositories, getRepositories }}>
 			{children}
 		</RepositoryContext.Provider>
 	);
