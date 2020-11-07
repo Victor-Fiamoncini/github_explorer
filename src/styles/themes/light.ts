@@ -13,7 +13,7 @@ export default {
 		messages: {
 			info: '',
 			success: '',
-			error: '',
+			error: '#c53030',
 		},
 	},
 	fonts: {

@@ -1,5 +1,8 @@
-import styled from 'styled-components';
+/* eslint-disable indent */
+import styled, { css } from 'styled-components';
 import { rem, shade } from 'polished';
+
+import { FormProps } from './types';
 
 export const Title = styled.h1`
 	font-size: ${rem(40)};
@@ -9,7 +12,7 @@ export const Title = styled.h1`
 	max-width: 450px;
 `;
 
-export const Form = styled.form`
+export const Form = styled.form<FormProps>`
 	margin-top: 40px;
 	max-width: 700px;
 	display: flex;
@@ -17,9 +20,15 @@ export const Form = styled.form`
 		flex: 1;
 		height: 70px;
 		padding: 0 24px;
-		border: 0;
 		border-radius: 5px 0 0 5px;
+		border: 2px solid ${props => props.theme.colors.white};
+		border-right: none;
 		color: ${props => props.theme.colors.primary};
+		${props =>
+			props.hasError &&
+			css`
+				border-color: ${props => props.theme.colors.messages.error};
+			`}
 		&::placeholder {
 			color: ${props => props.theme.colors.quartenary};
 		}
@@ -79,4 +88,10 @@ export const Repositories = styled.div`
 			color: ${props => props.theme.colors.senary};
 		}
 	}
+`;
+
+export const Error = styled.span`
+	display: block;
+	color: ${props => props.theme.colors.messages.error};
+	margin-top: 8px;
 `;

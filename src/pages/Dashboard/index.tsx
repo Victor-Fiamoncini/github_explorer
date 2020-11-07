@@ -4,10 +4,11 @@ import { FiChevronRight } from 'react-icons/fi';
 import githubExplorerLogo from '../../assets/images/github-explorer-logo.svg';
 import { useRepository } from '../../context/RepositoryContext';
 
-import { Title, Form, Repositories } from './styles';
+import { Title, Form, Repositories, Error } from './styles';
 
 const Dashboard: React.FC = () => {
 	const [newRepository, setNewRepository] = useState('');
+	const [inputError, setInputError] = useState('');
 
 	const { repositories, getRepositories } = useRepository();
 
@@ -15,7 +16,20 @@ const Dashboard: React.FC = () => {
 		async (event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault();
 
-			await getRepositories(newRepository);
+			if (!newRepository) {
+				setInputError('Digite o autor/nome do repositório');
+
+				return;
+			}
+
+			try {
+				await getRepositories(newRepository);
+
+				setNewRepository('');
+				setInputError('');
+			} catch {
+				setInputError('Erro ao buscar o repositório');
+			}
 		},
 		[getRepositories, newRepository]
 	);
@@ -24,7 +38,7 @@ const Dashboard: React.FC = () => {
 		<>
 			<img src={githubExplorerLogo} alt="Github Explorer" />
 			<Title>Explore repositórios no Github.</Title>
-			<Form onSubmit={handleNewRepositorySubmit}>
+			<Form hasError={!!inputError} onSubmit={handleNewRepositorySubmit}>
 				<input
 					type="text"
 					placeholder="Digite o nome do repositório"
@@ -33,6 +47,7 @@ const Dashboard: React.FC = () => {
 				/>
 				<button type="submit">Pesquisar</button>
 			</Form>
+			{inputError && <Error>{inputError}</Error>}
 			<Repositories>
 				{repositories.map(repository => (
 					<a key={repository.full_name} href="">

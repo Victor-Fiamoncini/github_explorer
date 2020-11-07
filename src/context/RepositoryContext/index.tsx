@@ -12,16 +12,12 @@ export const RepositoryProvider: React.FC = ({ children }) => {
 
 	const getRepositories = useCallback(
 		async (repositoryName: string) => {
-			try {
-				const repositories = await githubClient.get(`repos/${repositoryName}`);
+			const repositories = await githubClient.get(`repos/${repositoryName}`);
 
-				setData({
-					...data,
-					repositories: [...data.repositories, repositories.data],
-				});
-			} catch {
-				console.log('Error to fetch repositories');
-			}
+			setData({
+				...data,
+				repositories: [...data.repositories, repositories.data],
+			});
 		},
 		[data]
 	);
